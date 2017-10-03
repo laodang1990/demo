@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.jcloud.cms</groupId>
+    <artifactId>jcloud-cms-web-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>jcloud-cms-web</artifactId>
+  <packaging>war</packaging>
+  <name>jcloud-cms-web</name>
+
+  <dependencies>
+    <dependency>
+       <groupId>${project.groupId}</groupId>
+       <artifactId>jcloud-cms-service</artifactId>
+       <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</project>

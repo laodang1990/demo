@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+	<resultMap id="userResultMap" type="User">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="user_info">
+		id, phone, user_name,password,status,create_time
+	</sql>
+
+	<select id="findByName" resultMap="userResultMap" parameterType="java.lang.String" >
+		select
+		<include refid="user_info"/>
+		FROM user_info
+	  	where
+		user_name = #{userName}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="User">
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="book_id">
+			SELECT LAST_INSERT_ID() AS ID
+		</selectKey>
+		insert into user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="password != null and password != ''">
+				password,
+			</if>
+			<if test="status != null and status != ''">
+				status,
+			</if>
+			<if test="createTime != null and createTime != ''">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="phone != null and phone != ''">
+				#{phone},
+			</if>
+			<if test="userName != null and userName != ''">
+				#{userName},
+			</if>
+			<if test="password != null and password != ''">
+				#{password},
+			</if>
+			<if test="status != null and status != ''">
+				#{status},
+			</if>
+			<if test="createTime != null and createTime != ''">
+				now(),
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="update" parameterType="User">
+		update user_info
+		<trim suffixOverrides=",">
+			<set>
+				<if test="phone != null and phone != ''">
+					phone = #{phone},
+				</if>
+				<if test="password != null or password == 0">
+					password = #{password},
+				</if>
+			</set>
+		</trim>
+		where user_name = #{userName}
+	</insert>
+
+	<insert id="delete" parameterType="java.lang.String">
+		delete from user_info where user_name = #{userName}
+	</insert>
+</mapper>
